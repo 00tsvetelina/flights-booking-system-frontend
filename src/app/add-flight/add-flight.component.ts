@@ -41,7 +41,7 @@ export class AddFlightComponent {
   destination: FormControl = new FormControl('');
   delayInMins: FormControl = new FormControl('');;
   price:  FormControl = new FormControl('');
-  seatsCount: FormControl = new FormControl();;
+  seatsCount: FormControl = new FormControl('');
 
 
   hideRequiredControl = new FormControl(false);
@@ -59,7 +59,6 @@ export class AddFlightComponent {
         origin: this.origin,
         departureTime: this.departureTime,
         destination: this.destination,
-        arrivalTime: this.arrivalTime,
         delayInMins: this.delayInMins,
         seatsCount: this.seatsCount,
         price: this.price
@@ -70,8 +69,7 @@ export class AddFlightComponent {
       const FlightDtoData: FlightDtoPost = {
         "origin": this.saveFlightDetailsForm.get('origin')?.value,
         "destination": this.saveFlightDetailsForm.get('destination')?.value,
-        "departureTime": this.saveFlightDetailsForm.get('arrivalTime')?.value,
-        "arrivalTime": this.saveFlightDetailsForm.get('arrivalTime')?.value,
+        "departureTime": this.saveFlightDetailsForm.get('departureTime')?.value,
         "delayInMins": this.saveFlightDetailsForm.get('delayInMins')?.value,
         "price": this.saveFlightDetailsForm.get('price')?.value,
         "seatsCount": this.saveFlightDetailsForm.get('seatsCount')?.value
@@ -81,6 +79,7 @@ export class AddFlightComponent {
         (response: FlightDtoPost) => {
           // Handle successful response here
           console.log('Flight saved successfully', response);
+          window.location.reload()
         },
         (error) => {
           // Handle error here

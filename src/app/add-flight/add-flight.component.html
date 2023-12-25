@@ -26,14 +26,6 @@
             required>
         </mat-form-field>
 
-        <!-- <mat-form-field>
-          <mat-label>Date of arrival</mat-label>
-          <input matInput [formControl]="arrivalTime"
-           matInput [matDatepicker]="picker" required>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field> -->
-
         <mat-form-field [floatLabel]="getFloatLabelValue()">
           <mat-label>Delay</mat-label>
           <input matInput [formControl]="delayInMins"
