@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
-import { AddFlightComponent } from './add-flight/add-flight.component';
+import { environment } from './../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +12,7 @@ import { AddFlightComponent } from './add-flight/add-flight.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  constructor(){ console.log(environment.production);}
+
   title = 'flight-booking-system';
 }

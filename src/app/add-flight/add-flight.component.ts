@@ -9,10 +9,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FlightService } from '../flight.service';
-import { FlightDto } from '../flight-dto';
-import { log } from 'console';
+import { FlightDtoPost } from '../flight-dto-post';
 
 @Component({
   selector: 'app-add-flight',
@@ -27,15 +26,15 @@ import { log } from 'console';
     MatIconModule, 
     MatDatepickerModule, 
     MatNativeDateModule,
-    MatButtonModule],
+    MatButtonModule,
+    RouterLink],
+
   templateUrl: './add-flight.component.html',
   styleUrl: './add-flight.component.css'
 })
 export class AddFlightComponent {
 
   saveFlightDetailsForm: FormGroup;
-  // flightId: number = 1;
-  // plane: Object = {};
   origin:  FormControl = new FormControl('');
   departureTime: FormControl = new FormControl('');  
   arrivalTime:  FormControl = new FormControl('');  
@@ -56,11 +55,6 @@ export class AddFlightComponent {
           private activatedRoute: ActivatedRoute,
           private flightService: FlightService) {
 
-    //         this.flightId = this.activatedRoute.snapshot.params['flightId'];
-    //         this.flightService.getFlightById(this.flightId).subscribe(data=>{
-    //         this.plane = data.plane;
-            
-    // })
       this.saveFlightDetailsForm = new FormGroup({
         origin: this.origin,
         departureTime: this.departureTime,
@@ -73,21 +67,27 @@ export class AddFlightComponent {
   }
 
     saveFlight() {
-      const FlightDtoData: FlightDto = {
-        // "id": this.flightId,
-        // "plane": this.plane,
-        "origin": this.origin.get('origin')?.value,
-        "destination": this.destination.get('destination')?.value,
-        "departureTime": this.departureTime.get('arrivalTime')?.value,
-        "arrivalTime": this.arrivalTime.get('arrivalTime')?.value,
-        "delayInMins": this.delayInMins.get('delayInMins')?.value,
-        "price": this.price.get('price')?.value,
-        "seatsCount": this.seatsCount.get('seatsCount')?.value
+      const FlightDtoData: FlightDtoPost = {
+        "origin": this.saveFlightDetailsForm.get('origin')?.value,
+        "destination": this.saveFlightDetailsForm.get('destination')?.value,
+        "departureTime": this.saveFlightDetailsForm.get('arrivalTime')?.value,
+        "arrivalTime": this.saveFlightDetailsForm.get('arrivalTime')?.value,
+        "delayInMins": this.saveFlightDetailsForm.get('delayInMins')?.value,
+        "price": this.saveFlightDetailsForm.get('price')?.value,
+        "seatsCount": this.saveFlightDetailsForm.get('seatsCount')?.value
       }
 
-      this.flightService.saveFlight(FlightDtoData).subscribe(data=>{
-        console.log("Saved successfully");
-      })
+      this.flightService.saveFlight(FlightDtoData).subscribe(
+        (response: FlightDtoPost) => {
+          // Handle successful response here
+          console.log('Flight saved successfully', response);
+        },
+        (error) => {
+          // Handle error here
+          console.error('Error saving flight', error);
+        }
+      );
+      console.log(FlightDtoData)
     }
 
   getFloatLabelValue(): FloatLabelType {

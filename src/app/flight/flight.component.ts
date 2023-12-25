@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
-import { FlightDto } from '../flight-dto';
+import { FlightDto } from '../flight-dto-post';
 import { RouterLink } from '@angular/router';
 
 
