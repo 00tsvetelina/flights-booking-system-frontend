@@ -1,12 +1,11 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-import { FlightDtoGet } from '../flight-dto-get';
+import { Flight } from '../flight';
 import { FlightService } from '../flight.service';
 import { CommonModule, NgFor } from '@angular/common';
-import { log } from 'console';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
@@ -18,33 +17,27 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 })
 export class FlightListComponent implements OnInit, AfterViewInit {
 
-  
-  @Input()
-  flight!: FlightDtoGet;
   displayedColumns: string[] = ['id', 'destination', 'origin', 'departure', 'price', 'btn'];
-  flights: Array<FlightDtoGet> = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  dataSource = new MatTableDataSource<FlightDtoGet>(this.flights);
+  dataSource!: MatTableDataSource<Flight, MatPaginator>;
 
   constructor(private flightService: FlightService){}
 
-  
   ngOnInit(): void {
-    this.flightService.getAllFlights().subscribe(
-      (response) => {
+    this.flightService.getAllFlights().subscribe({
+      next: (flights) => {
         // Handle successful response here
-        this.flights = response;
-        console.log('Data fetched successfully ', this.flights);
+        this.dataSource = new MatTableDataSource<Flight>(flights);
+        
       },
-      (error) => {
+      error: (error) => {
         // Handle error here
         console.error('Cannot fetch data ', error);
-      }
-    );}
+      }}
+    );
+  }
 
-    ngAfterViewInit() {
-      this.dataSource.paginator = this.paginator;
-
-    }
-
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
 }

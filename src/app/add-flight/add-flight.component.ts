@@ -11,7 +11,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FlightService } from '../flight.service';
-import { FlightDtoPost } from '../flight-dto-post';
+import { Flight } from '../flight';
 
 @Component({
   selector: 'app-add-flight',
@@ -37,7 +37,6 @@ export class AddFlightComponent {
   saveFlightDetailsForm: FormGroup;
   origin:  FormControl = new FormControl('');
   departureTime: FormControl = new FormControl('');  
-  arrivalTime:  FormControl = new FormControl('');  
   destination: FormControl = new FormControl('');
   delayInMins: FormControl = new FormControl('');;
   price:  FormControl = new FormControl('');
@@ -46,6 +45,7 @@ export class AddFlightComponent {
 
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
+  
   options = this._formBuilder.group({
     hideRequired: this.hideRequiredControl,
     floatLabel: this.floatLabelControl,
@@ -66,7 +66,7 @@ export class AddFlightComponent {
   }
 
     saveFlight() {
-      const FlightDtoData: FlightDtoPost = {
+      const FlightData: Flight = {
         "origin": this.saveFlightDetailsForm.get('origin')?.value,
         "destination": this.saveFlightDetailsForm.get('destination')?.value,
         "departureTime": this.saveFlightDetailsForm.get('departureTime')?.value,
@@ -75,18 +75,18 @@ export class AddFlightComponent {
         "seatsCount": this.saveFlightDetailsForm.get('seatsCount')?.value
       }
 
-      this.flightService.saveFlight(FlightDtoData).subscribe(
-        (response: FlightDtoPost) => {
+      this.flightService.saveFlight(FlightData).subscribe({
+        next: (response: Flight) => {
           // Handle successful response here
           console.log('Flight saved successfully', response);
           window.location.reload()
         },
-        (error) => {
+        error: (error) => {
           // Handle error here
           console.error('Error saving flight', error);
         }
-      );
-      console.log(FlightDtoData)
+    });
+      console.log(FlightData)
     }
 
   getFloatLabelValue(): FloatLabelType {

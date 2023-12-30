@@ -1,6 +1,6 @@
-export interface FlightDtoGet { 
-    id: string,
-    plane: Object,
+export interface Flight { 
+    id?: number,
+    plane?: Object,
     origin: string,
     destination: string, 
     departureTime: Date,

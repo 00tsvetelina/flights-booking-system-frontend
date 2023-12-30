@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { FlightDtoPost } from './flight-dto-post';
-import { FlightDtoGet } from './flight-dto-get';
+import { Flight } from './flight';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +10,28 @@ export class FlightService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getFlightById(flightId: number): Observable<FlightDtoGet> {
-    return this.httpClient.get<FlightDtoGet>("http://localhost:8080/api/admin/flights/" + flightId)
-  }
-  
-  saveFlight(flightData: FlightDtoPost): Observable<FlightDtoPost> {
-    return this.httpClient.post<FlightDtoPost>("http://localhost:8080/api/admin/flights", flightData);
+  // get flight by flightId
+  getFlightById(flightId: number): Observable<Flight> {
+    return this.httpClient.get<Flight>("http://localhost:8080/api/admin/flights/" + flightId)
   }
 
-  getAllFlights(): Observable<Array<FlightDtoGet>> {
-    return this.httpClient.get<Array<FlightDtoGet>>("http://localhost:8080/api/admin/flights")
+  // get all flights
+  getAllFlights(): Observable<Array<Flight>> {
+    return this.httpClient.get<Array<Flight>>("http://localhost:8080/api/admin/flights")
   }
+  
+  // save flight
+  saveFlight(flightData: Flight): Observable<Flight> {
+    return this.httpClient.post<Flight>("http://localhost:8080/api/admin/flights", flightData);
+  }
+
+  // edit flight
+  updateFlight(flightId: number, flightData: Flight): Observable<Flight> {
+    return this.httpClient.put<Flight>("http://localhost:8080/api/admin/flights/" + flightId, flightData);
+  }
+  
+
+
 
 
 }

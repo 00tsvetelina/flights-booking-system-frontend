@@ -1,0 +1,57 @@
+
+<div class="example-container">
+  <form [formGroup]="editFlightDetailsForm">
+
+    <div class="example-form-fields">
+
+      <mat-form-field [floatLabel]="getFloatLabelValue()">
+        <mat-label>Origin</mat-label>
+        <input matInput [formControl]="origin"
+         matInput placeholder="Enter a city name..." 
+         required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Date of departure</mat-label>
+        <input matInput [formControl]="departureTime"
+         matInput [matDatepicker]="picker" 
+         required>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field [floatLabel]="getFloatLabelValue()">
+        <mat-label>Destination</mat-label>
+        <input matInput [formControl]="destination"
+         matInput placeholder="Enter a city name..."
+          required>
+      </mat-form-field>
+
+      <mat-form-field [floatLabel]="getFloatLabelValue()">
+        <mat-label>Delay</mat-label>
+        <input matInput [formControl]="delayInMins"
+        matInput placeholder="Enter delay in minutes..." 
+        required>
+      </mat-form-field>
+
+      <mat-form-field [floatLabel]="getFloatLabelValue()">
+        <mat-label>Price</mat-label>
+        <input matInput [formControl]="price"
+         matInput placeholder="Enter price in dollars..." 
+         required>
+      </mat-form-field>
+
+      <mat-form-field [floatLabel]="getFloatLabelValue()">
+        <mat-label>Seats</mat-label>
+        <input matInput [formControl]="seatsCount"
+         matInput placeholder="Enter count of seats..." 
+         required>
+      </mat-form-field>
+      
+      <div class="example-button-row">
+      <button mat-raised-button color="primary" (click)="editFlight()">Save</button>
+      <button mat-flat-button routerLink="/flights">Cancel</button>
+    </div>
+    </div>
+  </form>
+</div>
