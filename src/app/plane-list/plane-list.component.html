@@ -1,0 +1,51 @@
+<div class="add-flight">
+    <button mat-stroked-button color="primary" routerLink="/add-plane">
+        <mat-icon>add</mat-icon>
+        Add Plane</button>
+    </div>
+
+    <table mat-table class="mat-elevation-z8"
+    [dataSource]="dataSource">
+        
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+          <td mat-cell *matCellDef="let plane"> 
+          {{plane.id}}
+      </td>
+  
+      </ng-container>
+    
+      <!-- Model Column -->
+      <ng-container matColumnDef="model">
+        <th mat-header-cell *matHeaderCellDef> Model </th>
+        <td mat-cell *matCellDef="let plane"> {{plane.model}} </td>
+      </ng-container>
+
+      <!-- Model Column -->
+      <ng-container matColumnDef="flightsCount">
+        <th mat-header-cell *matHeaderCellDef> Flights Count </th>
+        <td mat-cell *matCellDef="let plane"> {{plane.flights.length}} </td>
+      </ng-container>
+    
+  
+    <ng-container matColumnDef="btn">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let plane">
+            <div class="btn">
+            <button mat-stroked-button color="basic" [routerLink]="['/edit-plane', plane.id]">Edit</button>
+            <button mat-button color="warn" (click)="openDialog(plane.id)">Delete</button>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="paginator">
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of flights">
+        </mat-paginator>
+      </div>

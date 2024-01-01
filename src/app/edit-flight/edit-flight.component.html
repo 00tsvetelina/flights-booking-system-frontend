@@ -4,6 +4,15 @@
 
     <div class="example-form-fields">
 
+      <mat-form-field
+          [hideRequiredMarker]="hideRequiredControl.value"
+          [floatLabel]="getFloatLabelValue()">
+        <mat-select [formControl]="plane" required>
+          <mat-option *ngFor="let plane of planes" [value]="plane">{{plane.id}}</mat-option>
+        </mat-select>
+        <mat-label><mat-icon>airplanemode_active</mat-icon> <strong> Plane</strong> <em> id</em></mat-label>
+      </mat-form-field>
+
       <mat-form-field [floatLabel]="getFloatLabelValue()">
         <mat-label>Origin</mat-label>
         <input matInput [formControl]="origin"

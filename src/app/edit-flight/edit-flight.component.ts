@@ -12,8 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { FlightService } from '../flight.service';
 import { Flight } from '../flight';
-import { Observable, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PlaneService } from '../plane.service';
+import { Plane } from '../plane';
+import { Router } from 'express';
 
 @Component({
   selector: 'app-edit-flight',
@@ -48,11 +51,12 @@ export class EditFlightComponent {
   });
 
   //  custom fields 
-  id: any;
-  flight: any;
+  id!: number;
+  planes!: Plane[];
 
   editFlightDetailsForm!: FormGroup
   origin:  FormControl = new FormControl('');
+  plane: FormControl = new FormControl('');
   departureTime: FormControl = new FormControl('');  
   destination: FormControl = new FormControl('');
   delayInMins: FormControl = new FormControl('');;
@@ -61,15 +65,27 @@ export class EditFlightComponent {
 
   constructor(private _formBuilder: FormBuilder,
           private route: ActivatedRoute,
-          private flightService: FlightService) {
+          private flightService: FlightService,
+          private matSnackBar: MatSnackBar,
+          private planeService: PlaneService) {
       
+      this.planeService.getAllPlanes().subscribe({
+        next: (planes) => {
+          this.planes = planes;
+          console.log("planes ", planes);
+        },
+        error(err) {
+          console.error(err);
+        },
+      })
+
       this.route.params.subscribe(
         (params: Params) => {
           this.id = +params['id'];
-          this.flight = this.flightService.getFlightById(this.id);
 
           this.editFlightDetailsForm = new FormGroup({
             origin: this.origin,
+            plane: this.plane,
             departureTime: this.departureTime,
             destination: this.destination,
             delayInMins: this.delayInMins,
@@ -78,13 +94,13 @@ export class EditFlightComponent {
           })
         }
       )
-      
-     
   }
+
 
     editFlight() {
       const FlightEditData: Flight = {
         "origin": this.editFlightDetailsForm.get('origin')?.value,
+        "plane": this.editFlightDetailsForm.get('plane')?.value,
         "destination": this.editFlightDetailsForm.get('destination')?.value,
         "departureTime": this.editFlightDetailsForm.get('departureTime')?.value,
         "delayInMins": this.editFlightDetailsForm.get('delayInMins')?.value,
@@ -92,11 +108,25 @@ export class EditFlightComponent {
         "seatsCount": this.editFlightDetailsForm.get('seatsCount')?.value
       }
 
+      console.log("edit: ", FlightEditData);
+
       this.flightService.updateFlight(this.id ,FlightEditData).subscribe({
         next: (response: Flight) => {
           // Handle successful response here
           console.log('Flight saved successfully', response);
-          window.location.reload()
+          console.log('Flight saved successfully', this.id);
+
+          this.editFlightDetailsForm.reset({
+            origin: "",
+            plane: "",
+            departureTime: "",
+            destination: "",
+            delayInMins: "",
+            seatsCount: "",
+            price: ""
+          });
+
+          this.matSnackBar.open("Flight added successfully", "OK");
         },
         error: (error) => {
           // Handle error here

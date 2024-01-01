@@ -9,9 +9,13 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {  RouterLink } from '@angular/router';
 import { FlightService } from '../flight.service';
 import { Flight } from '../flight';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PlaneService } from '../plane.service';
+import { Plane } from '../plane';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-flight',
@@ -27,7 +31,8 @@ import { Flight } from '../flight';
     MatDatepickerModule, 
     MatNativeDateModule,
     MatButtonModule,
-    RouterLink],
+    RouterLink,
+    CommonModule],
 
   templateUrl: './add-flight.component.html',
   styleUrl: './add-flight.component.css'
@@ -35,11 +40,13 @@ import { Flight } from '../flight';
 export class AddFlightComponent {
 
   saveFlightDetailsForm: FormGroup;
-  origin:  FormControl = new FormControl('');
+
+  origin: FormControl = new FormControl('');
+  plane: FormControl = new FormControl('');
   departureTime: FormControl = new FormControl('');  
   destination: FormControl = new FormControl('');
   delayInMins: FormControl = new FormControl('');;
-  price:  FormControl = new FormControl('');
+  price: FormControl = new FormControl('');
   seatsCount: FormControl = new FormControl('');
 
 
@@ -51,12 +58,26 @@ export class AddFlightComponent {
     floatLabel: this.floatLabelControl,
   });
 
+  planes!: Plane[];
+
   constructor(private _formBuilder: FormBuilder,
-          private activatedRoute: ActivatedRoute,
-          private flightService: FlightService) {
+          private flightService: FlightService,
+          private matSnackBar: MatSnackBar,
+          private planeService: PlaneService) {
+
+      this.planeService.getAllPlanes().subscribe({
+        next: (planes) => {
+          this.planes = planes;
+          console.log("planes ", planes);
+        },
+        error(err) {
+          console.error(err);
+        },
+      })
 
       this.saveFlightDetailsForm = new FormGroup({
         origin: this.origin,
+        plane: this.plane,
         departureTime: this.departureTime,
         destination: this.destination,
         delayInMins: this.delayInMins,
@@ -68,6 +89,7 @@ export class AddFlightComponent {
     saveFlight() {
       const FlightData: Flight = {
         "origin": this.saveFlightDetailsForm.get('origin')?.value,
+        "plane": this.saveFlightDetailsForm.get('plane')?.value,
         "destination": this.saveFlightDetailsForm.get('destination')?.value,
         "departureTime": this.saveFlightDetailsForm.get('departureTime')?.value,
         "delayInMins": this.saveFlightDetailsForm.get('delayInMins')?.value,
@@ -79,7 +101,8 @@ export class AddFlightComponent {
         next: (response: Flight) => {
           // Handle successful response here
           console.log('Flight saved successfully', response);
-          window.location.reload()
+          this.saveFlightDetailsForm.reset();
+          this.matSnackBar.open("Flight added successfully", "OK");
         },
         error: (error) => {
           // Handle error here

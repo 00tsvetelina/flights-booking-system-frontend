@@ -40,6 +40,13 @@
         <td mat-cell *matCellDef="let flight"> {{flight.price | currency:'USD':'symbol':'1.2-2' }} 
       </td>
       </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="plane">
+        <th mat-header-cell *matHeaderCellDef> Plane </th>
+        <td mat-cell *matCellDef="let flight"> {{flight.plane.model }} 
+      </td>
+      </ng-container>
   
     <ng-container matColumnDef="btn">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -47,7 +54,7 @@
             <div class="btn">
             <button mat-raised-button color="primary">Book Now!</button>
             <button mat-stroked-button color="basic" [routerLink]="['/edit-flight', flight.id]">Edit</button>
-            <button mat-button color="warn" (click)="onDelete(flight.id)">Delete</button>
+            <button mat-button color="warn" (click)="openDialog(flight.id)">Delete</button>
             </div>
         </td>
     </ng-container>

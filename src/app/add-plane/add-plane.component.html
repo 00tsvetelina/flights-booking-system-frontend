@@ -1,0 +1,20 @@
+<div class="example-container">
+    <form [formGroup]="options">
+  
+      <div class="example-form-fields">
+
+        <mat-form-field [floatLabel]="getFloatLabelValue()">
+          <mat-label>Model</mat-label>
+          <input matInput [formControl]="model"
+           matInput placeholder="Enter a plane model..." 
+           required>
+        </mat-form-field>
+
+        
+        <div class="example-button-row">
+        <button mat-raised-button color="primary" (click)="saveFlight()">Save</button>
+        <button mat-flat-button routerLink="/planes">Cancel</button>
+      </div>
+      </div>
+    </form>
+  </div>
