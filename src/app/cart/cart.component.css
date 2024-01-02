@@ -1,0 +1,55 @@
+.wrapper {
+    padding: 0 5%;
+}
+
+.data {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 2% 0;
+    padding: 0 1%;
+    align-items: center
+}
+
+
+mat-card-actions {
+    justify-content: flex-end;
+    align-items: stretch
+}
+
+input {
+    margin-right: 0.5%;
+    padding: 0 1%;
+    border-radius: 5px;
+    border-color: rgba(63, 81, 181, 0.1);
+}
+
+mat-card-header {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+mat-card{
+    margin: 1%;
+}
+
+mat-card-title {
+    background-color: #3f51b5;
+    color: white;
+    padding-left: 1%;
+    border-radius: 7px 7px 0 0;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 2%;
+}
+
+h2 {
+    margin: 0 2%;
+    
+}

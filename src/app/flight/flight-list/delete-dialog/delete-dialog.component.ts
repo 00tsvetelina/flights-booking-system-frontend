@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { FlightService } from '../../flight.service';
 import { MatButtonModule } from '@angular/material/button';
+import { FlightService } from '../../../services/flight.service';
 
 @Component({
   selector: 'app-delete-dialog',

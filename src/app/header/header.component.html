@@ -1,9 +1,13 @@
 <p>
     <mat-toolbar color="primary">
-      <span>Flight Booking Management</span>
+      <span routerLink="/">Flight Booking Management</span>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon">
+      <button mat-icon-button class="example-icon favorite-icon" routerLink="/tickets">
         <mat-icon>airplane_ticket</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon favorite-icon" 
+      routerLink="/cart">
+        <mat-icon [matBadge]="getCartTicketsCount()" matBadgeColor="accent" aria-hidden="false">shopping_cart</mat-icon>
       </button>
       <button mat-icon-button class="example-icon">
         <mat-icon>login</mat-icon>

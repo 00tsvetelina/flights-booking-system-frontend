@@ -10,12 +10,12 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import {  RouterLink } from '@angular/router';
-import { FlightService } from '../flight.service';
-import { Flight } from '../flight';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { PlaneService } from '../plane.service';
-import { Plane } from '../plane';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Flight } from '../../models/flight';
+import { FlightService } from '../../services/flight.service';
+import { Plane } from '../../models/plane';
+import { PlaneService } from '../../services/plane.service';
 
 @Component({
   selector: 'app-add-flight',

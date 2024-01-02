@@ -7,11 +7,10 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
-import { Flight } from '../flight';
-import { PlaneService } from '../plane.service';
-import { FlightService } from '../flight.service';
-import { Plane } from '../plane';
+
 import { DeletePlaneComponent } from './delete-plane/delete-plane.component';
+import { Plane } from '../../models/plane';
+import { PlaneService } from '../../services/plane.service';
 
 @Component({
   selector: 'app-plane-list',

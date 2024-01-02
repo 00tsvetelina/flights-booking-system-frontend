@@ -3,13 +3,18 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
-import { Flight } from '../flight';
-import { FlightService } from '../flight.service';
+
 import { CommonModule, NgFor } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialog, MatDialogActions, MatDialogClose, MatDialogConfig, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { FlightService } from '../../services/flight.service';
+import { Flight } from '../../models/flight';
+import { TicketService } from '../../services/ticket.service';
+import { Ticket } from '../../models/ticket';
+import { CartService } from '../../services/cart.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-flight-list',
@@ -36,7 +41,8 @@ export class FlightListComponent implements OnInit, AfterViewInit {
   dataSource!: MatTableDataSource<Flight, MatPaginator>;
 
   constructor(private flightService: FlightService,
-                private dialog: MatDialog
+                private dialog: MatDialog,
+                private cartService: CartService
                 ){}
 
   ngOnInit(): void {
@@ -53,6 +59,10 @@ export class FlightListComponent implements OnInit, AfterViewInit {
     );
   }
 
+  bookTicket(){
+  
+  }
+
 
   openDialog(id: number): void {
     console.log("id ", id)
@@ -63,6 +73,21 @@ export class FlightListComponent implements OnInit, AfterViewInit {
         id: id
       }
     });
+  }
+
+  addToCart(flight: Flight){
+
+    const TicketData: Ticket = {
+      flight: flight,
+      destination: flight.destination,
+      departureTime: flight.departureTime,
+      origin: flight.origin,
+      ticketPrice: flight.price,
+    }
+
+    console.log("ticket data: ", TicketData)
+
+    this.cartService.addToCart(TicketData);
   }
 
 

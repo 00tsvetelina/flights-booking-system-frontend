@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
-import { PlaneService } from '../../plane.service';
+
 import { MatButtonModule } from '@angular/material/button';
+import { PlaneService } from '../../../services/plane.service';
 
 @Component({
   selector: 'app-delete-plane',

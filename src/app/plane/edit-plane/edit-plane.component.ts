@@ -12,8 +12,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink, ActivatedRoute, Params } from '@angular/router';
-import { Plane } from '../plane';
-import { PlaneService } from '../plane.service';
+import { Plane } from '../../models/plane';
+import { PlaneService } from '../../services/plane.service';
 
 @Component({
   selector: 'app-edit-plane',

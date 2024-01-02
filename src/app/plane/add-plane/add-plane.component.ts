@@ -11,9 +11,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PlaneService } from '../plane.service';
-import { Plane } from '../plane';
+
 import { RouterLink } from '@angular/router';
+import { Plane } from '../../models/plane';
+import { PlaneService } from '../../services/plane.service';
 
 @Component({
   selector: 'app-add-plane',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { Plane } from './plane';
+import { Plane } from '../models/plane';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +34,5 @@ export class PlaneService {
   deletePlane(planeId: number): Observable<Plane> {
     return this.httpClient.delete<Plane>("http://localhost:8080/api/admin/planes/" + planeId);    
   }
-
-
-
 
 }
