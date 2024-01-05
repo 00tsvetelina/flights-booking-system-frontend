@@ -1,5 +1,16 @@
 .menu{
     display: flex;
-    justify-content: space-around;
-    padding-top: 2%;
-}   
+    flex-direction: column;
+    align-items:center;    
+    padding-top: 2% 0 0 0;
+}
+
+.menu-user {
+    margin-bottom: 1%;
+}
+
+.menu-user mat-button-toggle {
+    width: 15em;
+    background-color: #3f51b5;
+    color: white;
+}

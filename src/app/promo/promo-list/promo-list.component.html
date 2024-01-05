@@ -1,0 +1,71 @@
+<div class="add-flight">
+    <button mat-stroked-button color="primary" routerLink="/add-promo">
+        <mat-icon>add</mat-icon>
+        Add Promo</button>
+    </div>
+
+    <table mat-table class="mat-elevation-z8"
+    [dataSource]="dataSource">
+        
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+          <td mat-cell *matCellDef="let promo"> 
+          {{promo.id}}
+      </td>
+  
+      </ng-container>
+    
+      <!-- Column Code -->
+      <ng-container matColumnDef="promoCode">
+        <th mat-header-cell *matHeaderCellDef> Code </th>
+        <td mat-cell *matCellDef="let promo"> {{promo.promoCode}} </td>
+      </ng-container>
+
+      <!-- Column Discount -->
+      <ng-container matColumnDef="percentOff">
+        <th mat-header-cell *matHeaderCellDef> Discount </th>
+        <td mat-cell *matCellDef="let promo"> {{promo.percentOff}} %</td>
+      </ng-container>
+
+        <!-- Column End Date -->
+        <ng-container matColumnDef="durationEnd">
+        <th mat-header-cell *matHeaderCellDef> End Date </th>
+        <td mat-cell *matCellDef="let promo"> {{promo.durationEnd}}</td>
+        </ng-container>
+
+      <!-- Column Single Use -->
+      <ng-container matColumnDef="singleUse">
+        <th mat-header-cell *matHeaderCellDef> Single Use </th>
+        <td mat-cell *matCellDef="let promo"> {{promo.singleUse}}</td>
+      </ng-container>
+    
+  
+      <!-- Column Tickets Count -->
+      <ng-container matColumnDef="tickets">
+        <th mat-header-cell *matHeaderCellDef> Tickets with PROMO </th>
+        <td mat-cell *matCellDef="let promo"> {{promo.tickets.length}}</td>
+      </ng-container>
+    
+  
+    <ng-container matColumnDef="btn">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let promo">
+            <div class="btn">
+            <button mat-stroked-button color="basic" [routerLink]="['/edit-promo', promo.id]">Edit</button>
+            <button mat-button color="warn" (click)="openDialog(promo.id)">Delete</button>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="paginator">
+      <mat-paginator [length]="100"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page">
+      </mat-paginator>
+  </div>

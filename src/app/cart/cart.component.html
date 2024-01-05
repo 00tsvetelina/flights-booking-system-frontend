@@ -7,18 +7,21 @@
             <mat-card-subtitle><strong>Destination: </strong> {{ticket.destination}}</mat-card-subtitle>
             <mat-card-subtitle><strong>Date of Departure:</strong> {{ticket.departureTime}}</mat-card-subtitle>
             <mat-card-subtitle><strong>Origin:</strong> {{ticket.origin}}</mat-card-subtitle>
-            <mat-card-subtitle><strong>Price:</strong> {{ticket.ticketPrice  | currency:'USD':'symbol':'1.2-2' }} </mat-card-subtitle>
-            <mat-card-actions>
-                <input placeholder="PROMOCODE">
-                <button  mat-stroked-button color="primary">ENTER</button>
-            </mat-card-actions>
+            <mat-card-subtitle id="price"><strong>Price:</strong> {{ticket.ticketPrice  | currency:'USD':'symbol':'1.2-2' }} </mat-card-subtitle>
+          
+            <form (submit)="onEnterCode(i)">
+                <input id="promo-{{i}}" placeholder="PROMOCODE" [(ngModel)]="promoInputs[i]" 
+                name="code" [disabled]="isPromoDisabled(i)">
+                <button  mat-stroked-button color="primary" type="submit" [disabled]="isPromoDisabled(i)">ENTER</button>
+            </form>
+
             <button mat-button color="warn" (click)="onReturn(i)">RETURN</button>
         </div>
     </mat-card-header>
     </mat-card>
-    <div class="actions">
-        <h2>Total Price: </h2>
-        <button  mat-raised-button color="primary">BOOK</button>
+    <div class="actions" *ngIf="tickets">
+        <h2>Total Price: {{ onGetPrice() | currency:'USD':'symbol':'1.2-2' }}</h2>
+        <button  mat-raised-button color="primary" (click)="onBook()">BOOK</button>
     </div>    
 </div>
 

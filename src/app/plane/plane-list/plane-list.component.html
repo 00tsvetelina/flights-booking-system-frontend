@@ -44,8 +44,9 @@
     </table>
 
     <div class="paginator">
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons
-        aria-label="Select page of flights">
-        </mat-paginator>
-      </div>
+      <mat-paginator [length]="100"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page">
+      </mat-paginator>
+    </div>

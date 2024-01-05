@@ -1,0 +1,43 @@
+<div class="example-container">
+    <form [formGroup]="options">
+  
+      <div class="example-form-fields">
+
+        <mat-form-field [floatLabel]="getFloatLabelValue()">
+          <mat-label>Code</mat-label>
+          <input matInput [formControl]="promoCode"
+           matInput placeholder="Enter a promo code..." 
+           required>
+        </mat-form-field>
+
+        <mat-form-field [floatLabel]="getFloatLabelValue()">
+          <mat-label>Discount</mat-label>
+          <input matInput [formControl]="percentOff"
+           matInput placeholder="Enter a discount..." 
+           required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>End Date</mat-label>
+            <input matInput [formControl]="durationEnd"
+             matInput [matDatepicker]="picker" 
+             required>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Single Use</mat-label>
+            <select matNativeControl [formControl]="singleUse" required>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </mat-form-field>
+
+        <div class="example-button-row">
+        <button mat-raised-button color="primary" (click)="savePromo()">Save</button>
+        <button mat-flat-button routerLink="/promos">Cancel</button>
+      </div>
+      </div>
+    </form>
+  </div>

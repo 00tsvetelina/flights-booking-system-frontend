@@ -9,6 +9,9 @@ import { EditPlaneComponent } from './plane/edit-plane/edit-plane.component';
 import { PlaneListComponent } from './plane/plane-list/plane-list.component';
 import { TicketComponent } from './ticket/ticket.component';
 import { CartComponent } from './cart/cart.component';
+import { PromoListComponent } from './promo/promo-list/promo-list.component';
+import { AddPromoComponent } from './promo/add-promo/add-promo.component';
+import { EditPromoComponent } from './promo/edit-promo/edit-promo.component';
 
 
 export const routes: Routes = [
@@ -20,6 +23,9 @@ export const routes: Routes = [
             { path: "planes", component: PlaneListComponent },
             { path: "add-plane", component: AddPlaneComponent },
             { path: "edit-plane/:id", component: EditPlaneComponent},
+            { path: "promos", component: PromoListComponent},
+            { path: "add-promo", component: AddPromoComponent},
+            { path: "edit-promo/:id", component: EditPromoComponent},
         ]
     },
     {path: 'tickets', component: TicketComponent},

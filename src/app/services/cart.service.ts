@@ -10,18 +10,16 @@ export class CartService {
     addToCart(ticket: Ticket): void {
         let tickets = this.getTickets();
         tickets.push(ticket);
-
-        console.log("all: ", tickets);
-
         localStorage.setItem('tickets', JSON.stringify(tickets));
     }
 
     getTickets(): Ticket[] {
         let tickets: string | null = localStorage.getItem('tickets');
+
         if (tickets) {
             return JSON.parse(tickets);
-        } 
-        return [];
+        }
+            return [];
     }
 
     deleteTicket(ticketIndex: number): void {
@@ -30,4 +28,6 @@ export class CartService {
         localStorage.setItem('tickets', JSON.stringify(tickets));
     }
 
+
+    
 }

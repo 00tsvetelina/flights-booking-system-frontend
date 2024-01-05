@@ -34,7 +34,7 @@ import { log } from 'console';
   templateUrl: './flight-list.component.html',
   styleUrl: './flight-list.component.css'
 })
-export class FlightListComponent implements OnInit, AfterViewInit {
+export class FlightListComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'destination', 'origin', 'departure', 'price', 'plane', 'btn'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -59,10 +59,6 @@ export class FlightListComponent implements OnInit, AfterViewInit {
     );
   }
 
-  bookTicket(){
-  
-  }
-
 
   openDialog(id: number): void {
     console.log("id ", id)
@@ -83,16 +79,12 @@ export class FlightListComponent implements OnInit, AfterViewInit {
       departureTime: flight.departureTime,
       origin: flight.origin,
       ticketPrice: flight.price,
+      promos: []
     }
 
     console.log("ticket data: ", TicketData)
 
     this.cartService.addToCart(TicketData);
-  }
-
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
   }
 
 

@@ -90,7 +90,7 @@ export class EditPlaneComponent {
          },
          error: (error) => {
            // Handle error here
-           console.error('Error saving flight', error);
+           console.error('Error saving plane', error);
          }
      });
      }

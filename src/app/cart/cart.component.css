@@ -12,9 +12,10 @@
 }
 
 
-mat-card-actions {
+form {
     justify-content: flex-end;
-    align-items: stretch
+    align-items: stretch;
+    display: flex;
 }
 
 input {

@@ -8,8 +8,8 @@ export interface Ticket {
     destination: string,
     departureTime: Date,
     origin: string,
-    seat?: string,
+    seat?: string, //TODO see if i should remove ?
     user?: User,
     ticketPrice: number,
-    promo?: Array<Promo> 
+    promos: Array<Promo> 
 }

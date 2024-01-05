@@ -69,13 +69,13 @@ export class AddPlaneComponent {
     this.planeService.savePlane(PlaneData).subscribe({
       next: (response: Plane) => {
         // Handle successful response here
-        console.log('Flight saved successfully', response);
+        console.log('Plane saved successfully', response);
         this.savePlaneDetailsForm.reset();
-        this.matSnackBar.open("Flight added successfully", "OK");
+        this.matSnackBar.open("Plane added successfully", "OK");
       },
       error: (error) => {
         // Handle error here
-        console.error('Error saving flight', error);
+        console.error('Error saving plane', error);
       }
   });
     console.log(PlaneData)
