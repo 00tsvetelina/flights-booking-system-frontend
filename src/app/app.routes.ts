@@ -12,6 +12,7 @@ import { CartComponent } from './cart/cart.component';
 import { PromoListComponent } from './promo/promo-list/promo-list.component';
 import { AddPromoComponent } from './promo/add-promo/add-promo.component';
 import { EditPromoComponent } from './promo/edit-promo/edit-promo.component';
+import { LoginComponent } from './login/login.component';
 
 
 export const routes: Routes = [
@@ -29,6 +30,7 @@ export const routes: Routes = [
         ]
     },
     {path: 'tickets', component: TicketComponent},
-    {path: 'cart', component: CartComponent}
+    {path: 'cart', component: CartComponent},
+    {path: 'login', component: LoginComponent}
     
 ];

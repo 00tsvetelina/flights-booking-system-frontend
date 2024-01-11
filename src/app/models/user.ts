@@ -1,7 +1,9 @@
 export interface User {
-    id?: number,
+    id: number,
+    firstAndLastNames: string,
     email: string,
     userName: string,
-    isBanned: boolean,
-    role: string
+    password: string,
+    isEnabled: boolean,
+    roles: string
 }

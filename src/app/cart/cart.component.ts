@@ -17,7 +17,8 @@ import { TicketService } from '../services/ticket.service';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, DatePipe],
+  imports: [MatCardModule, MatButtonModule,
+     CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, DatePipe],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
   providers: [DatePipe]

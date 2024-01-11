@@ -2,17 +2,25 @@
     <mat-toolbar color="primary">
       <span routerLink="/">Flight Booking Management</span>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon" routerLink="/tickets">
+      
+      <button mat-icon-button class="example-icon favorite-icon"
+       routerLink="/tickets" [hidden]="!authenticated()">
         <mat-icon>airplane_ticket</mat-icon>
       </button>
       <button mat-icon-button class="example-icon favorite-icon" 
-      routerLink="/cart">
+      routerLink="/cart" [hidden]="!authenticated()">
         <mat-icon [matBadge]="getCartTicketsCount()" matBadgeColor="accent" aria-hidden="false">shopping_cart</mat-icon>
       </button>
-      <button mat-icon-button class="example-icon">
+      <button mat-icon-button class="example-icon" 
+        routerLink="/register" [hidden]="authenticated()">
+        <mat-icon>person_add</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon"
+       routerLink="/login" [hidden]="authenticated()">
         <mat-icon>login</mat-icon>
       </button>
-      <button mat-icon-button class="example-icon">
+      <button mat-icon-button class="example-icon" 
+      (click)="logout()" [hidden]="!authenticated()">
         <mat-icon>logout</mat-icon>
       </button>
     </mat-toolbar>

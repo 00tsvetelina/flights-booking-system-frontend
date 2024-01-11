@@ -1,0 +1,29 @@
+<mat-card>
+	<mat-card-title>Login</mat-card-title>
+	<mat-card-content>
+		<form  role="form" (ngSubmit)="login()" >
+			<div class="form-group">
+				<mat-form-field>
+					<input type="text" class="form-control" matInput placeholder="Username"
+					id="username" name="username" [(ngModel)]="credentials.username">
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+				<mat-form-field>
+					<input type="password" matInput placeholder="Password"
+					class="form-control" id="password" name="password" [(ngModel)]="credentials.password">
+				</mat-form-field>
+			</div>
+
+			<div class="button">
+				<button type="submit" mat-button color="primary">Submit</button>
+			</div>
+		</form>
+	</mat-card-content>
+	<div class="no-account">
+		No account yet? Register <span style="text-decoration: underline;">here</span>
+	</div>
+	<div class="error" [hidden]="!error">
+		There was a problem logging in. Please try again.
+	</div>
+</mat-card>
