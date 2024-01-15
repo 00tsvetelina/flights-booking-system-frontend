@@ -21,12 +21,14 @@ export class MenuComponent {
   constructor(private auth: AuthService){}
 
   getRoles(): boolean {
-    let roleAdmin: string[] = ['admin'];
-
-    if(roleAdmin[0] === this.auth.roles[0]) {
-      return true;
-    } 
-      return false;
+    if (this.auth.authenticated && this.auth.userMatch) {
+      let roleAdmin: string[] = ['admin'];
+      if(roleAdmin[0] === this.auth.userMatch.roles[0]) {
+        return true;
+      } 
+    }
+  
+    return false;
   }
 
   authenticated(): boolean { 

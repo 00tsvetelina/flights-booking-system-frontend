@@ -13,12 +13,21 @@ import { PromoService } from '../services/promo.service';
 import { error, log } from 'console';
 import { FormBuilder, FormControl, FormsModule, NgForm } from '@angular/forms';
 import { TicketService } from '../services/ticket.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule,
-     CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, DatePipe],
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    DatePipe
+  ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
   providers: [DatePipe]
@@ -38,7 +47,9 @@ export class CartComponent implements OnInit {
     private promoService: PromoService,
     private formBuilder: FormBuilder,
     private ticketService: TicketService,
-    private datePipe: DatePipe) {
+    private auth: AuthService,
+    private datePipe: DatePipe
+  ){
 
       this.promoService.getAllPromos().subscribe({
         next: (promos) => {
@@ -85,12 +96,40 @@ export class CartComponent implements OnInit {
     this.isPromoSubmitted[index] = true;
     document.getElementById("price")!.style.color = '#ff4081';
 
-    this.tickets[index].promos.push(promo);
+    this.tickets[index].promos?.push(promo);
     console.log("result ", this.tickets[index].promos)
 
   }
 
   onBook(): void {
+    this.tickets.forEach(ticket => {
+      const alphabet = "ABCD"
+      let letter = alphabet[Math.floor(Math.random() * alphabet.length)];
+      let number =  Math.floor(Math.random() * ticket.flight.seatsCount) + 1;
+
+      const TicketData: Ticket = {
+        "id": ticket.id,
+        "flight": ticket.flight,
+        "destination": ticket.destination,
+        "departureTime": ticket.departureTime,
+        "origin": ticket.origin,
+        "seat": `${number}${letter.toUpperCase()}` ,
+        "ticketPrice": ticket.ticketPrice,
+        "user": this.auth.userMatch,
+        "promos": ticket.promos
+      }
+      console.log("dai tiketa: ", TicketData);
+      
+      this.ticketService.saveTicket(TicketData).subscribe({
+        next: (ticket: Ticket) => {
+          console.log("zapazen e: ", ticket)
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      })
+    });
+
     localStorage.setItem('tickets', JSON.stringify([]));
     this.tickets = [];
   }
@@ -105,7 +144,7 @@ export class CartComponent implements OnInit {
       return false
     } 
 
-    if(this.tickets[index].promos.includes(promo)) {
+    if(this.tickets[index].promos?.includes(promo)) {
       this.matSnackBar.open("This code has already been used", "OK");
       return false
     } 

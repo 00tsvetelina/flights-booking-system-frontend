@@ -4,12 +4,12 @@ import { User } from "./user";
 
 export interface Ticket {
     id?: number,
-    flight?: Flight,
+    flight: Flight,
     destination: string,
     departureTime: Date,
     origin: string,
-    seat?: string, //TODO see if i should remove ?
+    seat?: string,
     user?: User,
     ticketPrice: number,
-    promos: Array<Promo> 
+    promos?: Array<Promo> 
 }

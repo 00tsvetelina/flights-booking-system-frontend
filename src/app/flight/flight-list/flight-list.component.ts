@@ -90,12 +90,16 @@ export class FlightListComponent implements OnInit {
   }
 
   getRoles(): boolean {
+    if (!this.auth.authenticated) {
+      return false;
+    }
     let roleAdmin: string[] = ['admin'];
 
-    if(roleAdmin[0] === this.auth.roles[0]) {
+    if(roleAdmin[0] === this.auth.userMatch.roles[0]) {
       return true;
     } 
-      return false;
+    
+    return false;
   }
 
 }
