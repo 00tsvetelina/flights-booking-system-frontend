@@ -21,9 +21,9 @@
 		</form>
 	</mat-card-content>
 	<div class="no-account">
-		No account yet? Register <span style="text-decoration: underline;">here</span>
+		No account yet? Register <span routerLink="/register" style="text-decoration: underline;">here</span>
 	</div>
-	<div class="error" [hidden]="!error">
+	<div class="error" *ngIf = "error">
 		There was a problem logging in. Please try again.
 	</div>
 </mat-card>

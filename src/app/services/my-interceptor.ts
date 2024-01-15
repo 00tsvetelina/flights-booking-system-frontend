@@ -23,7 +23,5 @@ export class HeadersInterceptor implements HttpInterceptor {
     })
     return next.handle(modifiedRequest);
 
-    // request.headers = this.auth.headers
-    // return next.handle(request)
   }
 }

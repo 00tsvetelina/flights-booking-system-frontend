@@ -4,10 +4,10 @@
     <mat-button-toggle routerLink="/flights">Flights</mat-button-toggle>
   </mat-button-toggle-group>
   </div>
-  <div class="menu-admin">
+  <div class="menu-admin" [hidden]="!authenticated()" *ngIf="getRoles()">
   <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style">
     <mat-button-toggle routerLink="/planes">Planes</mat-button-toggle>
     <mat-button-toggle routerLink="/promos">Promos</mat-button-toggle>
-    <mat-button-toggle routerLink="/">Users</mat-button-toggle>
+    <mat-button-toggle routerLink="/users">Users</mat-button-toggle>
   </mat-button-toggle-group>
 </div>

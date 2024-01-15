@@ -15,7 +15,8 @@ import { PlaneService } from '../../services/plane.service';
 @Component({
   selector: 'app-plane-list',
   standalone: true,
-  imports: [MatTableModule,
+  imports: [
+    MatTableModule,
     MatIconModule,
     MatButtonModule,
     RouterLink, NgFor,
@@ -26,7 +27,8 @@ import { PlaneService } from '../../services/plane.service';
     MatDialogActions,
     MatDialogClose,
     MatDialogTitle,
-    MatDialogContent],
+    MatDialogContent
+  ],
   templateUrl: './plane-list.component.html',
   styleUrl: './plane-list.component.css'
 })
@@ -43,7 +45,7 @@ export class PlaneListComponent implements OnInit {
 
   ngOnInit(): void {
     this.planeService.getAllPlanes().subscribe({
-      next: (planes) => {
+      next: (planes: Plane[]) => {
         // Handle successful response here
         this.dataSource = new MatTableDataSource<Plane>(planes);
       },

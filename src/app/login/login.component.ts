@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { waitForAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ import { CommonModule } from '@angular/common';
             MatCardModule,
             MatInputModule,
             MatButtonModule,
-            CommonModule],
+            CommonModule,
+            RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -30,12 +32,13 @@ export class LoginComponent {
     private router: Router){}
 
     login(){
-      console.log("credenzione:", this.credentials)
       this.auth.authenticate(this.credentials, () => {
         this.router.navigateByUrl('/');
       })
-      this.error = true;
-      return false;
+
+      if (this.auth.authenticated === false) {
+        this.error = true;
+      }
     }
 
 }

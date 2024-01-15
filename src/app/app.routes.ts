@@ -13,6 +13,8 @@ import { PromoListComponent } from './promo/promo-list/promo-list.component';
 import { AddPromoComponent } from './promo/add-promo/add-promo.component';
 import { EditPromoComponent } from './promo/edit-promo/edit-promo.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { UserListComponent } from './user/user-list/user-list.component';
 
 
 export const routes: Routes = [
@@ -27,10 +29,11 @@ export const routes: Routes = [
             { path: "promos", component: PromoListComponent},
             { path: "add-promo", component: AddPromoComponent},
             { path: "edit-promo/:id", component: EditPromoComponent},
+            {path: 'users', component: UserListComponent}
         ]
     },
     {path: 'tickets', component: TicketComponent},
     {path: 'cart', component: CartComponent},
-    {path: 'login', component: LoginComponent}
-    
+    {path: 'login', component: LoginComponent},
+    {path: 'register', component: RegisterComponent},
 ];

@@ -32,9 +32,11 @@ export class HeaderComponent {
     return ticketsList.length;
   }
 
-  authenticated() { return this.auth.authenticated; }
+  authenticated() { 
+    
+    return this.auth.authenticated; 
+  }
 
-  // TODO
   logout() {
     this.http.post('logout', {}).pipe(
       finalize(() => {

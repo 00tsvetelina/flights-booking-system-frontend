@@ -17,15 +17,17 @@ import { PlaneService } from '../../../services/plane.service';
 })
 export class DeletePlaneComponent {
 
-  constructor(private dialog: MatDialog,
+  constructor(
+    private dialog: MatDialog,
     private planeService: PlaneService,
-    @Inject(MAT_DIALOG_DATA) private planeData: any ){}
+    @Inject(MAT_DIALOG_DATA) private planeData: any 
+    ){}
 
 
-  onDelete(){
+  onDelete(): void {
     this.planeService.deletePlane(this.planeData.id).subscribe({
-      next: (result) => {
-        console.log("Deleted flight: ", result)
+      next: (plane) => {
+        console.log("Deleted flight: ", plane)
         window.location.reload();
       },
       error: (error) => {

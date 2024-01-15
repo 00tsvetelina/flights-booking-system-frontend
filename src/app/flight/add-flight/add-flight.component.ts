@@ -9,7 +9,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import {  RouterLink } from '@angular/router';
+import {  Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Flight } from '../../models/flight';
@@ -60,10 +60,13 @@ export class AddFlightComponent {
 
   planes!: Plane[];
 
-  constructor(private _formBuilder: FormBuilder,
-          private flightService: FlightService,
-          private matSnackBar: MatSnackBar,
-          private planeService: PlaneService) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    private flightService: FlightService,
+    private matSnackBar: MatSnackBar,
+    private planeService: PlaneService,
+    private router: Router
+    ){
 
       this.planeService.getAllPlanes().subscribe({
         next: (planes) => {
@@ -101,7 +104,7 @@ export class AddFlightComponent {
         next: (response: Flight) => {
           // Handle successful response here
           console.log('Flight saved successfully', response);
-          this.saveFlightDetailsForm.reset();
+          this.router.navigateByUrl('/flights');
           this.matSnackBar.open("Flight added successfully", "OK");
         },
         error: (error) => {

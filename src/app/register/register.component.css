@@ -7,40 +7,43 @@
 mat-card{
     width: 30%;
     padding: 5% 0 0 0;
+    justify-content: center;
 }
 
   mat-form-field {
-    width: 100%;
-    padding: 3% 0;
+    width: 90%;
+    padding: 3%;
   }
 
-
   mat-card-content {
+    display: flex;
     justify-content: center;
+    flex-direction: column;
   }
 
   mat-card-title{
-    text-align: center;
     padding-bottom: 10%;
     font-size: 2em;
+    text-align: center;
     }
 
 
-  .error {
-    padding: 2em;
-    color: white;
-    background-color: red;
+.account {
+    margin: 5% 0 20% 0;
+    font-size: 1em;
     text-align: center;
-  }
+}
+
+.error{
+  padding: 2em;
+  margin-top: 5%;
+  color: white;
+  background-color: red;
+  text-align: center;
+}
 
   button, .button {
     display: flex;
     justify-content: center;
     font-size: 1.2em;
   }
-
-.no-account {
-    margin: 5% 0 20% 0;
-    font-size: 1em;
-    text-align: center;
-}

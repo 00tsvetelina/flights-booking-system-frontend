@@ -15,6 +15,7 @@ import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../models/ticket';
 import { CartService } from '../../services/cart.service';
 import { log } from 'console';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-flight-list',
@@ -42,7 +43,8 @@ export class FlightListComponent implements OnInit {
 
   constructor(private flightService: FlightService,
                 private dialog: MatDialog,
-                private cartService: CartService
+                private cartService: CartService,
+                private auth: AuthService
                 ){}
 
   ngOnInit(): void {
@@ -87,5 +89,13 @@ export class FlightListComponent implements OnInit {
     this.cartService.addToCart(TicketData);
   }
 
+  getRoles(): boolean {
+    let roleAdmin: string[] = ['admin'];
+
+    if(roleAdmin[0] === this.auth.roles[0]) {
+      return true;
+    } 
+      return false;
+  }
 
 }

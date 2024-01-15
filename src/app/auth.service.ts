@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './services/user.service';
+import { error } from 'node:console';
+import { UserInput } from './models/user-input';
+import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +13,7 @@ export class AuthService {
   authenticated: boolean = false;
   headers: HttpHeaders = new HttpHeaders;
   authorization: string = '';
+  roles: Array<string> = [];
 
   constructor(
     private http: HttpClient,
@@ -19,22 +23,36 @@ export class AuthService {
     console.log('get credentials: ', credentials)
 
     this.authorization = 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-    this.headers = new HttpHeaders(credentials ? {
-      authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-    } : {}); 
 
-    console.log('get headers: ', this.headers)
+    this.userService.getUserByUsername(credentials.username).subscribe({
+      next:(user: UserInput) => {
+        
+        if(!user){          
+          this.authenticated = false;
+          return;
+        }
+        
+        this.userService.getAllUsers().subscribe({
+          next: (users: User[]) => {
 
+            const userMatchRoles = users.filter(match => match.userName === user.userName)
+                                  .map(userMatch => userMatch.roles);
 
-    this.userService.getUserByUsername(credentials.username, this.headers)
-        .subscribe(response => {
-          if(response['userName']) {
-            this.authenticated = true;
-          } else {
-            this.authenticated = false;
+            this.roles = userMatchRoles[0];
+
+          }, error (error) {
+            console.error("No match found.");
           }
-      return callback && callback();
-    });
+        })
+        
+        this.authenticated = true;    
+        return callback && callback();
+      }, 
+      error: (err) => {
+        this.authenticated = false;
+        console.warn(err);
+      }}
+    );
   }
 
 }
