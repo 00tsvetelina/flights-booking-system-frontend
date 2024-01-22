@@ -9,7 +9,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, Params, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Flight } from '../../models/flight';
@@ -33,14 +33,14 @@ import { PlaneService } from '../../services/plane.service';
     MatDatepickerModule, 
     MatNativeDateModule,
     MatButtonModule,
-    RouterLink],
+    RouterLink
+  ],
 
   templateUrl: './edit-flight.component.html',
   styleUrl: './edit-flight.component.css'
 })
 export class EditFlightComponent {
 
-  // ng mat fields
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   
@@ -49,7 +49,6 @@ export class EditFlightComponent {
     floatLabel: this.floatLabelControl,
   });
 
-  //  custom fields 
   id!: number;
   planes!: Plane[];
 
@@ -63,77 +62,61 @@ export class EditFlightComponent {
   seatsCount: FormControl = new FormControl('');
 
   constructor(private _formBuilder: FormBuilder,
-          private route: ActivatedRoute,
-          private flightService: FlightService,
-          private matSnackBar: MatSnackBar,
-          private planeService: PlaneService) {
-      
-      this.planeService.getAllPlanes().subscribe({
-        next: (planes) => {
-          this.planes = planes;
-          console.log("planes ", planes);
-        },
-        error(err) {
-          console.error(err);
-        },
-      })
+    private route: ActivatedRoute,
+    private flightService: FlightService,
+    private matSnackBar: MatSnackBar,
+    private planeService: PlaneService,
+    private router: Router
+  ){
+    
+    this.planeService.getAllPlanes().subscribe({
+      next: (planes) => {
+        this.planes = planes;
+      },
+      error(err) {
+        console.error(err);
+      },
+    })
 
-      this.route.params.subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.id = +params['id'];
 
-          this.editFlightDetailsForm = new FormGroup({
-            origin: this.origin,
-            plane: this.plane,
-            departureTime: this.departureTime,
-            destination: this.destination,
-            delayInMins: this.delayInMins,
-            seatsCount: this.seatsCount,
-            price: this.price
-          })
-        }
-      )
+        this.editFlightDetailsForm = new FormGroup({
+          origin: this.origin,
+          plane: this.plane,
+          departureTime: this.departureTime,
+          destination: this.destination,
+          delayInMins: this.delayInMins,
+          seatsCount: this.seatsCount,
+          price: this.price
+        })
+      }
+    )
   }
 
 
-    editFlight() {
-      const FlightEditData: Flight = {
-        "origin": this.editFlightDetailsForm.get('origin')?.value,
-        "plane": this.editFlightDetailsForm.get('plane')?.value,
-        "destination": this.editFlightDetailsForm.get('destination')?.value,
-        "departureTime": this.editFlightDetailsForm.get('departureTime')?.value,
-        "delayInMins": this.editFlightDetailsForm.get('delayInMins')?.value,
-        "price": this.editFlightDetailsForm.get('price')?.value,
-        "seatsCount": this.editFlightDetailsForm.get('seatsCount')?.value
-      }
-
-      console.log("edit: ", FlightEditData);
-
-      this.flightService.updateFlight(this.id ,FlightEditData).subscribe({
-        next: (response: Flight) => {
-          // Handle successful response here
-          console.log('Flight saved successfully', response);
-          console.log('Flight saved successfully', this.id);
-
-          this.editFlightDetailsForm.reset({
-            origin: "",
-            plane: "",
-            departureTime: "",
-            destination: "",
-            delayInMins: "",
-            seatsCount: "",
-            price: ""
-          });
-
-          this.matSnackBar.open("Flight added successfully", "OK");
-        },
-        error: (error) => {
-          // Handle error here
-          console.error('Error saving flight', error);
-        }
-    });
-      console.log(FlightEditData)
+  editFlight(): void {
+    const FlightEditData: Flight = {
+      "origin": this.editFlightDetailsForm.get('origin')?.value,
+      "plane": this.editFlightDetailsForm.get('plane')?.value,
+      "destination": this.editFlightDetailsForm.get('destination')?.value,
+      "departureTime": this.editFlightDetailsForm.get('departureTime')?.value,
+      "delayInMins": this.editFlightDetailsForm.get('delayInMins')?.value,
+      "price": this.editFlightDetailsForm.get('price')?.value,
+      "seatsCount": this.editFlightDetailsForm.get('seatsCount')?.value
     }
+
+    this.flightService.updateFlight(this.id ,FlightEditData).subscribe({
+      next: () => {
+        this.router.navigateByUrl("/flights");
+        this.matSnackBar.open("Flight added successfully", "OK");
+      },
+      error: (error) => {
+        console.error('Error saving flight', error);
+      }
+    });
+  }
 
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';

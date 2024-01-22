@@ -6,28 +6,31 @@ import { FlightService } from '../../../services/flight.service';
 @Component({
   selector: 'app-delete-dialog',
   standalone: true,
-  imports: [ MatDialogActions,
+  imports: [
+    MatDialogActions,
     MatDialogClose,
     MatDialogTitle,
     MatDialogContent,
-    MatButtonModule],
+    MatButtonModule
+  ],
   templateUrl: './delete-dialog.component.html',
   styleUrl: './delete-dialog.component.css'
 })
+
 export class DeleteDialogComponent {
 
-  constructor(private dialog: MatDialog,
-              private flightService: FlightService,
-              @Inject(MAT_DIALOG_DATA) private flightData: any ){}
-
+  constructor(
+    private dialog: MatDialog,
+    private flightService: FlightService,
+    @Inject(MAT_DIALOG_DATA) private flightData: any 
+  ){}
 
   onDelete(){
     this.flightService.deleteFlight(this.flightData.id).subscribe({
-      next: (result) => {
-        console.log("Deleted flight: ", result)
+      next: () => {
         window.location.reload();
       },
-      error: (error) => {
+      error: () => {
         console.error("Cannot delete flight with id: ", this.flightData.id)
       }
     })

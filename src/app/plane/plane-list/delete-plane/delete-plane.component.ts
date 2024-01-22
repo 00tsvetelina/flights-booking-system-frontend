@@ -21,16 +21,15 @@ export class DeletePlaneComponent {
     private dialog: MatDialog,
     private planeService: PlaneService,
     @Inject(MAT_DIALOG_DATA) private planeData: any 
-    ){}
+  ){}
 
 
   onDelete(): void {
     this.planeService.deletePlane(this.planeData.id).subscribe({
-      next: (plane) => {
-        console.log("Deleted flight: ", plane)
+      next: () => {
         window.location.reload();
       },
-      error: (error) => {
+      error: () => {
         console.error("Cannot delete flight with id: ", this.planeData.id)
       }
     })

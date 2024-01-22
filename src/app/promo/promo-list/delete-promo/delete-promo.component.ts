@@ -6,28 +6,31 @@ import { PromoService } from '../../../services/promo.service';
 @Component({
   selector: 'app-delete-promo',
   standalone: true,
-  imports: [MatDialogActions,
+  imports: [
+    MatDialogActions,
     MatDialogClose,
     MatDialogTitle,
     MatDialogContent,
-    MatButtonModule],
-  templateUrl: './delete-promo.component.html',
-  styleUrl: './delete-promo.component.css'
+    MatButtonModule
+  ],
+  templateUrl: './delete-promo.component.html'
 })
+
 export class DeletePromoComponent {
-  constructor(private dialog: MatDialog,
+
+  constructor(
+    private dialog: MatDialog,
     private promoService: PromoService,
-    @Inject(MAT_DIALOG_DATA) private promoData: any ){}
+    @Inject(MAT_DIALOG_DATA) private promoData: any 
+  ){}
 
     onDelete(){
       this.promoService.deletePromo(this.promoData.id).subscribe({
-        next: (result) => {
-          console.log("Deleted flight: ", result)
-          window.location.reload();
+        next: () => {
+          this.promoData = this.promoService.getAllPromos().subscribe();
         },
-        error: (error) => {
+        error: () => {
           console.error("Cannot delete flight with id: ", this.promoData.id);
-          window.location.reload();
       }
       })
     }

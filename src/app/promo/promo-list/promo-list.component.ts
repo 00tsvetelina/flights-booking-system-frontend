@@ -17,7 +17,8 @@ import { TicketService } from '../../services/ticket.service';
 @Component({
   selector: 'app-promo-list',
   standalone: true,
-  imports: [MatTableModule,
+  imports: [
+    MatTableModule,
     MatIconModule,
     MatButtonModule,
     RouterLink, NgFor,
@@ -28,7 +29,8 @@ import { TicketService } from '../../services/ticket.service';
     MatDialogActions,
     MatDialogClose,
     MatDialogTitle,
-    MatDialogContent],
+    MatDialogContent
+  ],
   templateUrl: './promo-list.component.html',
   styleUrl: './promo-list.component.css'
 })
@@ -47,11 +49,9 @@ export class PromoListComponent {
   ngOnInit(): void {
     this.promoService.getAllPromos().subscribe({
       next: (promos) => {
-        // Handle successful response here
         this.dataSource = new MatTableDataSource<Promo>(promos);
       },
       error: (error) => {
-        // Handle error here
         console.error('Cannot fetch data ', error);
       }}
     );

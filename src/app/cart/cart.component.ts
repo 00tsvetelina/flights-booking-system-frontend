@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CartService } from '../services/cart.service';
@@ -10,10 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Promo } from '../models/promo';
 import { PromoService } from '../services/promo.service';
-import { error, log } from 'console';
-import { FormBuilder, FormControl, FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { TicketService } from '../services/ticket.service';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
+import { FlightService } from '../services/flight.service';
 
 @Component({
   selector: 'app-cart',
@@ -33,9 +33,9 @@ import { AuthService } from '../auth.service';
   providers: [DatePipe]
 })
 
-export class CartComponent implements OnInit {
+export class CartComponent {
 
-  tickets: Ticket[] = this.cartService.getTickets();
+  tickets: Ticket[] = [];
   
   promos: Promo[] = [];
   promoInputs: string[] = [];
@@ -45,30 +45,30 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private matSnackBar: MatSnackBar,
     private promoService: PromoService,
-    private formBuilder: FormBuilder,
     private ticketService: TicketService,
     private auth: AuthService,
-    private datePipe: DatePipe
+    private flightService: FlightService
   ){
+    this.tickets = this.cartService.getTickets();
 
-      this.promoService.getAllPromos().subscribe({
-        next: (promos) => {
-          console.log('promos ', promos);
-          this.promos = promos;
-        },
-        error: (error) => {
-          console.error('Cannot fetch data ', error);
-        }
-      })
+    this.promoService.getAllPromos().subscribe({
+      next: (promos) => {
+        this.promos = promos;
+      },
+      error: (error) => {
+        console.error('Cannot fetch data ', error);
+      }
+    });
   }
 
-  ngOnInit() {
-    console.log('tickets: ', this.tickets);
-  }
+  onReturn(ticketIndex: number): void {
+    const flight = this.tickets[ticketIndex].flight;
+    flight.seatsCount += 1;
+    this.flightService.saveFlight(flight);
 
-  onReturn(ticketIndex: number): void{
     this.cartService.deleteTicket(ticketIndex);
     this.tickets = this.cartService.getTickets();
+    
     this.matSnackBar.open("Ticket returned successfully", "OK");
   }
 
@@ -77,12 +77,9 @@ export class CartComponent implements OnInit {
     return totalPrice;
   }
 
-  // make code unique
   onEnterCode(index: number) {
 
-
     let promo: Promo = this.promos.find((promo: Promo) => promo.promoCode === this.promoInputs[index])!;
-
     
     if(!this.validatePromo(promo, index)){
       return;
@@ -94,7 +91,7 @@ export class CartComponent implements OnInit {
 
     this.tickets[index].ticketPrice = finalPrice;
     this.isPromoSubmitted[index] = true;
-    document.getElementById("price")!.style.color = '#ff4081';
+    document.getElementById(`price-${index}`)!.style.color = '#ff4081';
 
     this.tickets[index].promos?.push(promo);
     console.log("result ", this.tickets[index].promos)
@@ -115,14 +112,13 @@ export class CartComponent implements OnInit {
         "origin": ticket.origin,
         "seat": `${number}${letter.toUpperCase()}` ,
         "ticketPrice": ticket.ticketPrice,
-        "user": this.auth.userMatch,
+        "user": this.auth.getUserMatch(),
         "promos": ticket.promos
       }
-      console.log("dai tiketa: ", TicketData);
       
       this.ticketService.saveTicket(TicketData).subscribe({
         next: (ticket: Ticket) => {
-          console.log("zapazen e: ", ticket)
+          console.log("Ticket saved successfully: id ", ticket.id);
         },
         error: (error) => {
           console.error(error);
@@ -141,30 +137,30 @@ export class CartComponent implements OnInit {
   validatePromo(promo: Promo, index: number): boolean {
     if(!promo) {
       this.matSnackBar.open("Invalid input", "OK");
-      return false
-    } 
+      return false;
+    }; 
 
     if(this.tickets[index].promos?.includes(promo)) {
       this.matSnackBar.open("This code has already been used", "OK");
-      return false
-    } 
+      return false;
+    }; 
 
     if(promo.isUsed){
       this.matSnackBar.open("This code has already been used", "OK");
-      return false
-    }
+      return false;
+    };
 
     let currentDate: Date = new Date();
     let promoEndDate: Date = new Date(promo.durationEnd);
 
     if(promoEndDate < currentDate){
       this.matSnackBar.open("This code is expired", "OK");
-      return false
-    }
+      return false;
+    };
 
-    if(promo.singleUse===true) {
+    if(promo.singleUse === true) {
       promo.isUsed = true;
-    } 
+    };
 
     return true;
   }

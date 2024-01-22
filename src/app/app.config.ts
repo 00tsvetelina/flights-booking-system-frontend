@@ -1,11 +1,10 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { HeadersInterceptor } from './services/my-interceptor';
+import { HeadersInterceptor } from './services/auth-headers-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

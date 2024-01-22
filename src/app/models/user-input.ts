@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 export interface UserInput {
     firstAndLastNames: string,
     userName: string,

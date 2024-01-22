@@ -9,7 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, MenuComponent, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    MenuComponent,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

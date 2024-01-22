@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NgForm, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Router, RouterLink } from '@angular/router';
@@ -9,9 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { UserInput } from '../models/user-input';
-import { repeat } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -26,10 +25,11 @@ import { repeat } from 'rxjs';
     RouterLink,
     MatFormFieldModule,
     MatSelectModule,
-    ],
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
+
 export class RegisterComponent {
   
   userDetails: FormGroup;
@@ -38,7 +38,6 @@ export class RegisterComponent {
   email: FormControl = new FormControl('');
   password: FormControl = new FormControl('');
   passwordRepeat: FormControl = new FormControl('');
-
   errorMessage: string = "";
 
   constructor(
@@ -56,7 +55,7 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
 
     const UserData: UserInput = {
       "firstAndLastNames": this.userDetails.get('fullName')?.value,
@@ -74,7 +73,7 @@ export class RegisterComponent {
 
         if (isUserValid) {
           this.userService.saveUser(UserData).subscribe({
-            next: (response) =>{
+            next: () =>{
               this.router.navigateByUrl('/login');
               this.matSnackBar.open("Registration successful, please log in.", "OK");
             }
@@ -89,8 +88,10 @@ export class RegisterComponent {
   }
 
   validateUserFields(userData: UserInput, users: User[]): boolean {
+
     let ifUsernameExists = users.some(user=> user.userName === userData.userName);
     let ifEmailExists = users.some(user=> user.email === userData.email);
+    
     if(ifUsernameExists) {
      this.errorMessage = "Username already exists. Please try enter a different one."
      return false

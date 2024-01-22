@@ -11,15 +11,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Plane } from '../../models/plane';
 import { PlaneService } from '../../services/plane.service';
 
 @Component({
   selector: 'app-add-plane',
   standalone: true,
-  imports: [FormsModule,
+  imports: [
+    FormsModule,
     ReactiveFormsModule,
     MatCheckboxModule,
     MatRadioModule,
@@ -32,10 +32,12 @@ import { PlaneService } from '../../services/plane.service';
     MatButtonModule,
     RouterLink,
     CommonModule,
-    RouterLink],
+    RouterLink
+  ],
   templateUrl: './add-plane.component.html',
   styleUrl: './add-plane.component.css'
 })
+
 export class AddPlaneComponent {
 
   savePlaneDetailsForm: FormGroup;
@@ -50,39 +52,36 @@ export class AddPlaneComponent {
     floatLabel: this.floatLabelControl,
   });
 
-
-  constructor(private _formBuilder: FormBuilder,
+  constructor(
+    private _formBuilder: FormBuilder,
     private matSnackBar: MatSnackBar,
-    private planeService: PlaneService) {
+    private planeService: PlaneService,
+    private router: Router
+  ){
 
-
-  this.savePlaneDetailsForm = new FormGroup({
-    model: this.model
-  })
+    this.savePlaneDetailsForm = new FormGroup({
+      model: this.model
+    })
   }
 
-  saveFlight() {
+  saveFlight(): void {
     const PlaneData: Plane = {
       "model": this.savePlaneDetailsForm.get('model')?.value,
     }
 
     this.planeService.savePlane(PlaneData).subscribe({
-      next: (response: Plane) => {
-        // Handle successful response here
-        console.log('Plane saved successfully', response);
-        this.savePlaneDetailsForm.reset();
+      next: () => {
+        this.router.navigateByUrl("/planes");
         this.matSnackBar.open("Plane added successfully", "OK");
       },
       error: (error) => {
-        // Handle error here
         console.error('Error saving plane', error);
       }
-  });
-    console.log(PlaneData)
+    });
   }
 
-getFloatLabelValue(): FloatLabelType {
-  return this.floatLabelControl.value || 'auto';
-}
-
+  getFloatLabelValue(): FloatLabelType {
+    return this.floatLabelControl.value || 'auto';
+  }
+  
 }

@@ -33,10 +33,10 @@ import { PlaneService } from '../../services/plane.service';
   styleUrl: './plane-list.component.css'
 })
 export class PlaneListComponent implements OnInit {
+
   displayedColumns: string[] = ['id', 'model', 'flightsCount', 'btn'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource!: MatTableDataSource<Plane, MatPaginator>;
-
 
   constructor(
     private planeService: PlaneService,
@@ -46,11 +46,9 @@ export class PlaneListComponent implements OnInit {
   ngOnInit(): void {
     this.planeService.getAllPlanes().subscribe({
       next: (planes: Plane[]) => {
-        // Handle successful response here
         this.dataSource = new MatTableDataSource<Plane>(planes);
       },
       error: (error) => {
-        // Handle error here
         console.error('Cannot fetch data ', error);
       }}
     );

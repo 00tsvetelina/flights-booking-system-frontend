@@ -11,14 +11,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Params, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { PromoService } from '../../services/promo.service';
 import { Promo } from '../../models/promo';
 
 @Component({
   selector: 'app-edit-promo',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatCheckboxModule,
@@ -30,7 +31,8 @@ import { Promo } from '../../models/promo';
     MatDatepickerModule, 
     MatNativeDateModule,
     MatButtonModule,
-    RouterLink],
+    RouterLink
+  ],
   templateUrl: './edit-promo.component.html',
   styleUrl: './edit-promo.component.css'
 })
@@ -53,10 +55,13 @@ export class EditPromoComponent {
 
   id!: number;
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(
+    private _formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private matSnackBar: MatSnackBar,
-    private promoService: PromoService) {
+    private promoService: PromoService,
+    private router: Router
+  ){
 
   this.route.params.subscribe(
     (params: Params) => {
@@ -72,7 +77,7 @@ export class EditPromoComponent {
   )
   }
 
-  editPromo() {
+  editPromo(): void {
     const PromoEditData: Promo = {
       "promoCode": this.editPromoDetailsForm.get('promoCode')?.value,
       "percentOff": this.editPromoDetailsForm.get('percentOff')?.value,
@@ -80,25 +85,12 @@ export class EditPromoComponent {
       "singleUse": this.editPromoDetailsForm.get('singleUse')?.value
     }
 
-    console.log("edit: ", PromoEditData);
-
     this.promoService.updatePromo(this.id ,PromoEditData).subscribe({
-      next: (response: Promo) => {
-        // Handle successful response here
-        console.log('Promo saved successfully', response);
-        console.log('Promo saved successfully', this.id);
-
-        this.editPromoDetailsForm.reset({
-          promoCode: "",
-          percentOff: "",
-          durationEnd: "",
-          singleUse: ""
-        });
-
+      next: () => {
+        this.router.navigateByUrl("/promos");
         this.matSnackBar.open("Promo edited successfully", "OK");
       },
       error: (error) => {
-        // Handle error here
         console.error('Error saving promo', error);
       }
   });

@@ -7,10 +7,15 @@ import {MatIconModule} from '@angular/material/icon';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, MenuComponent, MatCardModule, MatIconModule],
+  imports: [
+    RouterOutlet,
+    MenuComponent,
+    MatCardModule,
+    MatIconModule
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
 
+export class HomeComponent {
 }

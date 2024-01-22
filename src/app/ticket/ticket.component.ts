@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TicketService } from '../services/ticket.service';
 import { Ticket } from '../models/ticket';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -33,7 +33,7 @@ import { Router } from '@angular/router';
 export class TicketComponent implements OnInit {
 
   tickets: Ticket[] = [];
-  user = this.auth.userMatch;
+  user = this.auth.getUserMatch();
   
   constructor(
     private ticketService: TicketService,
@@ -42,10 +42,10 @@ export class TicketComponent implements OnInit {
     private router: Router
   ){}
 
-  ngOnInit(){
+  ngOnInit(): void {
     this.ticketService.getAllTickets().subscribe({
       next: (tickets: Ticket[]) => {
-        this.tickets = tickets.filter(match => match.user?.id === this.user.id);
+        this.tickets = tickets.filter(match => match.user?.id === this.user?.id);
       }
     })
   }

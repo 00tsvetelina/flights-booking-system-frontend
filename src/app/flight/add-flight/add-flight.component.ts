@@ -20,7 +20,8 @@ import { PlaneService } from '../../services/plane.service';
 @Component({
   selector: 'app-add-flight',
   standalone: true,
-  imports: [FormsModule,
+  imports: [
+    FormsModule,
     ReactiveFormsModule,
     MatCheckboxModule,
     MatRadioModule,
@@ -32,11 +33,13 @@ import { PlaneService } from '../../services/plane.service';
     MatNativeDateModule,
     MatButtonModule,
     RouterLink,
-    CommonModule],
+    CommonModule
+  ],
 
   templateUrl: './add-flight.component.html',
   styleUrl: './add-flight.component.css'
 })
+
 export class AddFlightComponent {
 
   saveFlightDetailsForm: FormGroup;
@@ -71,7 +74,6 @@ export class AddFlightComponent {
       this.planeService.getAllPlanes().subscribe({
         next: (planes) => {
           this.planes = planes;
-          console.log("planes ", planes);
         },
         error(err) {
           console.error(err);
@@ -89,31 +91,27 @@ export class AddFlightComponent {
       })
   }
 
-    saveFlight() {
-      const FlightData: Flight = {
-        "origin": this.saveFlightDetailsForm.get('origin')?.value,
-        "plane": this.saveFlightDetailsForm.get('plane')?.value,
-        "destination": this.saveFlightDetailsForm.get('destination')?.value,
-        "departureTime": this.saveFlightDetailsForm.get('departureTime')?.value,
-        "delayInMins": this.saveFlightDetailsForm.get('delayInMins')?.value,
-        "price": this.saveFlightDetailsForm.get('price')?.value,
-        "seatsCount": this.saveFlightDetailsForm.get('seatsCount')?.value
-      }
-
-      this.flightService.saveFlight(FlightData).subscribe({
-        next: (response: Flight) => {
-          // Handle successful response here
-          console.log('Flight saved successfully', response);
-          this.router.navigateByUrl('/flights');
-          this.matSnackBar.open("Flight added successfully", "OK");
-        },
-        error: (error) => {
-          // Handle error here
-          console.error('Error saving flight', error);
-        }
-    });
-      console.log(FlightData)
+  saveFlight(): void {
+    const FlightData: Flight = {
+      "origin": this.saveFlightDetailsForm.get('origin')?.value,
+      "plane": this.saveFlightDetailsForm.get('plane')?.value,
+      "destination": this.saveFlightDetailsForm.get('destination')?.value,
+      "departureTime": this.saveFlightDetailsForm.get('departureTime')?.value,
+      "delayInMins": this.saveFlightDetailsForm.get('delayInMins')?.value,
+      "price": this.saveFlightDetailsForm.get('price')?.value,
+      "seatsCount": this.saveFlightDetailsForm.get('seatsCount')?.value
     }
+
+    this.flightService.saveFlight(FlightData).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/flights');
+        this.matSnackBar.open("Flight added successfully", "OK");
+      },
+      error: (error) => {
+        console.error('Error saving flight', error);
+      }
+    });
+  }
 
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';

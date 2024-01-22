@@ -15,47 +15,49 @@ import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../models/ticket';
 import { CartService } from '../../services/cart.service';
 import { log } from 'console';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-flight-list',
   standalone: true,
-  imports: [MatTableModule,
-      	    MatIconModule,
-            MatButtonModule,
-            RouterLink, NgFor,
-            CommonModule,
-            MatPaginatorModule,
-            MatSnackBarModule,
-            MatDialogModule,
-            MatDialogActions,
-            MatDialogClose,
-            MatDialogTitle,
-            MatDialogContent],
+  imports: [
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    RouterLink, NgFor,
+    CommonModule,
+    MatPaginatorModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogTitle,
+    MatDialogContent
+  ],
   templateUrl: './flight-list.component.html',
   styleUrl: './flight-list.component.css'
 })
+
 export class FlightListComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'destination', 'origin', 'departure', 'price', 'plane', 'btn'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource!: MatTableDataSource<Flight, MatPaginator>;
 
-  constructor(private flightService: FlightService,
-                private dialog: MatDialog,
-                private cartService: CartService,
-                private auth: AuthService
-                ){}
+  constructor(
+    private flightService: FlightService,
+    private dialog: MatDialog,
+    private cartService: CartService,
+    private auth: AuthService,
+    private snackBar: MatSnackBar 
+  ){}
 
   ngOnInit(): void {
     this.flightService.getAllFlights().subscribe({
       next: (flights) => {
-        console.log("flights: ", flights)
-        // Handle successful response here
         this.dataSource = new MatTableDataSource<Flight>(flights);
       },
       error: (error) => {
-        // Handle error here
         console.error('Cannot fetch data ', error);
       }}
     );
@@ -73,7 +75,11 @@ export class FlightListComponent implements OnInit {
     });
   }
 
-  addToCart(flight: Flight){
+  addToCart(flight: Flight): void {
+    if (flight.seatsCount === 0) {
+      this.snackBar.open("No more available tickets for the selected flight.", "OK");
+      return;
+    }
 
     const TicketData: Ticket = {
       flight: flight,
@@ -84,18 +90,19 @@ export class FlightListComponent implements OnInit {
       promos: []
     }
 
-    console.log("ticket data: ", TicketData)
-
+    flight.seatsCount -= 1;
+    this.flightService.saveFlight(flight);
     this.cartService.addToCart(TicketData);
+    this.snackBar.open("Ticket was added to cart!", "OK");
   }
 
   getRoles(): boolean {
-    if (!this.auth.authenticated) {
+    if (!this.auth.getAuthenticated()) {
       return false;
     }
     let roleAdmin: string[] = ['admin'];
 
-    if(roleAdmin[0] === this.auth.userMatch.roles[0]) {
+    if(roleAdmin[0] === this.auth.getUserMatch()?.roles[0]) {
       return true;
     } 
     

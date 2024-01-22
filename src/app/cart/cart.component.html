@@ -7,7 +7,7 @@
             <mat-card-subtitle><strong>Destination: </strong> {{ticket.destination}}</mat-card-subtitle>
             <mat-card-subtitle><strong>Date of Departure:</strong> {{ticket.departureTime}}</mat-card-subtitle>
             <mat-card-subtitle><strong>Origin:</strong> {{ticket.origin}}</mat-card-subtitle>
-            <mat-card-subtitle id="price"><strong>Price:</strong> {{ticket.ticketPrice  | currency:'USD':'symbol':'1.2-2' }} </mat-card-subtitle>
+            <mat-card-subtitle id="price-{{i}}"><strong>Price:</strong> {{ticket.ticketPrice  | currency:'USD':'symbol':'1.2-2' }} </mat-card-subtitle>
           
             <form (submit)="onEnterCode(i)">
                 <input id="promo-{{i}}" placeholder="PROMOCODE" [(ngModel)]="promoInputs[i]" 

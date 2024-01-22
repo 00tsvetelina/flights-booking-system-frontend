@@ -18,14 +18,12 @@ import { UserListComponent } from '../user-list.component';
     MatButtonModule
   ],
   templateUrl: './enable-user.component.html',
-  styleUrl: './enable-user.component.css'
 })
 export class EnableUserComponent implements OnInit {
 
   userId?: number;
   
   constructor(
-    private dialog: MatDialog,
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA) private userData: any,
   ){}

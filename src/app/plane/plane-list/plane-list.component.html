@@ -6,29 +6,24 @@
 
     <table mat-table class="mat-elevation-z8"
     [dataSource]="dataSource">
-        
-    <!-- Id Column -->
+
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> Id </th>
           <td mat-cell *matCellDef="let plane"> 
           {{plane.id}}
       </td>
-  
-      </ng-container>
-    
-      <!-- Model Column -->
+    </ng-container>
+
       <ng-container matColumnDef="model">
         <th mat-header-cell *matHeaderCellDef> Model </th>
         <td mat-cell *matCellDef="let plane"> {{plane.model}} </td>
       </ng-container>
 
-      <!-- Model Column -->
       <ng-container matColumnDef="flightsCount">
         <th mat-header-cell *matHeaderCellDef> Flights Count </th>
         <td mat-cell *matCellDef="let plane"> {{plane.flights.length}} </td>
       </ng-container>
     
-  
     <ng-container matColumnDef="btn">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let plane">

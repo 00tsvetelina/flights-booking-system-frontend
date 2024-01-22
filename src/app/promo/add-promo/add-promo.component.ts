@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PromoService } from '../../services/promo.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Promo } from '../../models/promo';
@@ -19,7 +19,8 @@ import { response } from 'express';
 @Component({
   selector: 'app-add-promo',
   standalone: true,
-  imports: [FormsModule,
+  imports: [
+    FormsModule,
     ReactiveFormsModule,
     MatCheckboxModule,
     MatRadioModule,
@@ -32,7 +33,8 @@ import { response } from 'express';
     MatButtonModule,
     RouterLink,
     CommonModule,
-    RouterLink],
+    RouterLink
+  ],
   templateUrl: './add-promo.component.html',
   styleUrl: './add-promo.component.css'
 })
@@ -53,9 +55,12 @@ export class AddPromoComponent {
     floatLabel: this.floatLabelControl,
   });
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(
+    private _formBuilder: FormBuilder,
     private matSnackBar: MatSnackBar,
-    private promoService: PromoService) {
+    private promoService: PromoService,
+    private router: Router
+  ){
    
       this.savePromoDetailsForm = new FormGroup({
         promoCode: this.promoCode,
@@ -65,7 +70,7 @@ export class AddPromoComponent {
       })
     }
 
-    savePromo(){
+    savePromo(): void {
      const PromoData: Promo = {
       "promoCode": this.savePromoDetailsForm.get('promoCode')?.value,
       "percentOff": this.savePromoDetailsForm.get('percentOff')?.value,
@@ -74,9 +79,8 @@ export class AddPromoComponent {
       }
 
       this.promoService.savePromo(PromoData).subscribe({
-        next: (response: Promo) => {
-          console.log('Promo saved successfully', response);
-          this.savePromoDetailsForm.reset();
+        next: () => {
+          this.router.navigateByUrl("/promos");
           this.matSnackBar.open("Promo added successfully", "OK");
         },
         error: (error) => {

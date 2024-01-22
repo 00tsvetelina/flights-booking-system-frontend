@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AddFlightComponent } from './flight/add-flight/add-flight.component';
 import { EditFlightComponent } from './flight/edit-flight/edit-flight.component';
@@ -32,8 +31,8 @@ export const routes: Routes = [
             {path: 'users', component: UserListComponent}
         ]
     },
-    {path: 'tickets', component: TicketComponent},
-    {path: 'cart', component: CartComponent},
-    {path: 'login', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
+    { path: 'tickets', component: TicketComponent },
+    { path: 'cart', component: CartComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
 ];

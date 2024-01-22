@@ -9,7 +9,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
-import { error } from 'console';
 import { DisableUserComponent } from './disable-user/disable-user.component';
 import { EnableUserComponent } from './enable-user/enable-user.component';
 
@@ -44,7 +43,7 @@ export class UserListComponent implements OnInit{
   constructor(
     private userService: UserService,
     private dialog: MatDialog
-    ){}
+  ){}
 
     ngOnInit(): void {
       this.userService.getAllUsers().subscribe({

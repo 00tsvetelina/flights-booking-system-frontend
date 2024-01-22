@@ -16,14 +16,12 @@ import { Router } from '@angular/router';
     MatButtonModule
   ],
   templateUrl: './disable-user.component.html',
-  styleUrl: './disable-user.component.css'
 })
 export class DisableUserComponent implements OnInit {
 
   userId?: number;
 
   constructor(
-    private dialog: MatDialog,
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA) private userData: any,
     ){}
@@ -42,7 +40,7 @@ export class DisableUserComponent implements OnInit {
           this.userData.isEnabled = user.isEnabled;
           console.log("User was successfully disabled - id: ", this.userData.id);
         },
-          error: (error) => {
+          error: () => {
           console.error("Cannot disable user with id: ", this.userData.id);
         }
       })
